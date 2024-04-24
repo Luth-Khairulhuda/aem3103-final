@@ -50,6 +50,7 @@
 	subplot(2,2,1)
 	plot(ta,xa(:,1),tb,xb(:,1),tc,xc(:,1),td,xd(:,1))
 	xlabel('Time, s'), ylabel('Velocity, m/s'), grid
+    legend("Trajectory"); 
 	subplot(2,2,2)
 	plot(ta,xa(:,2),tb,xb(:,2),tc,xc(:,2),td,xd(:,2))
 	xlabel('Time, s'), ylabel('Flight Path Angle, rad'), grid
