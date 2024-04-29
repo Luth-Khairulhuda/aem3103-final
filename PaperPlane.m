@@ -24,6 +24,7 @@
 %   2a) Varying Inital Velocity
     figure
     subplot(2,1,1)
+    title("Varying Initial Velocity", 'FontSize',15);
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
     hold on
@@ -33,12 +34,13 @@
     for i = 1:length(Vo)
 	    xo		=	[Vo(i);Gam;H;R];
 	    [t,x]	=	ode23('EqMotion',tspan,xo);
-        plot(x(:,4),x(:,3), lines(i));
+        plot(x(:,4),x(:,3), lines(i), "LineWidth",2);
         hold on
     end
 
 %   2b) Varying Initial Flight Path Angle
     subplot(2,1,2)
+    title("Varying Initial Flight Path Angle", 'FontSize',15);
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
     hold on
@@ -47,7 +49,7 @@
     for i = 1:length(Gam_o)
 	    xo		=	[V;Gam_o(i);H;R];
 	    [t,x]	=	ode23('EqMotion',tspan,xo);
-        plot(x(:,4),x(:,3), lines(i));
+        plot(x(:,4),x(:,3), lines(i), "LineWidth",2);
         hold on
     end
 	
@@ -58,10 +60,9 @@
     Gam_max = 0.4;
     tspan = linspace(to, tf, 100);
     drl = 100;
-
-    % For part 4 (following 2 rows)
-    range = nan*zeros(100);
-    height = nan*zeros(100);
+    range = [];
+    height = [];
+    time = [];
     
     figure
     hold on
@@ -72,52 +73,48 @@
 	    [t,x]	=	ode23('EqMotion',tspan,xo);
         plot(x(:,4),x(:,3), "k-")
 
-        % For Part 4 (following 2 rows)
-        range(:,i) = x(:,4);
-        height(:,i) = x(:,3);
+        % For Part 4 (following rows)
+        R_temp = x(:,4);
+        H_temp = x(:,3);
+        t_temp = transpose(tspan);
+        range = cat(1, range, R_temp);
+        height = cat(1, height, H_temp);
+        time = cat(1, time, t_temp);
 
     end
-    title("Trajectories of 100 Random Initial Velocities and Flight Path Angles")
+    title(["10th Order Polyfit of 100 Randomized", "Initial Values Trajectories"]...
+        , "FontSize", 15)
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
 
 
 %   4) Average Trajectory
-    time = tspan;
     ord = 10;
-    avg_range = nan*(1:100);
-    avg_height = nan*(1:100);
+    
+    % Range Polyfit
+    p_r = polyfit(time, range, ord);
+    range_fit = polyval(p_r, tspan);
 
-    for i = 1:drl
-        avg_range(i) = mean(range(i,:));
-        avg_height(i) = mean(height(i,:));
-    end
+    % Height Polyfit
+    p_h = polyfit(time, height, ord);
+    height_fit = polyval(p_h, tspan);
 
-    figure
-    hold on
-    plot(time, avg_range, "k.")
-    p_r = polyfit(time, avg_range, ord);
-    range_fit = polyval(p_r, time);
-    plot(time, range_fit, "b-");
 
-    plot(time, avg_height, "k.")
-    p_h = polyfit(time, avg_height, ord);
-    height_fit = polyval(p_h, time);
-    plot(time, height_fit, "b-");
-
+    plot(range_fit, height_fit, "c-", "LineWidth", 5)
+    axis([0 25 -3 4]);
 
 %   5) Derivatives
-    drange = num_der_central(time, range_fit);
-    dheight = num_der_central(time, height_fit);
+    drange = num_der_central(tspan, range_fit);
+    dheight = num_der_central(tspan, height_fit);
 
     figure
     subplot(2,1,1);
-    plot(time, drange, "LineWidth", 2);
+    plot(tspan, drange, "LineWidth", 2);
         xlabel('Time, sec', 'FontSize',15), ...
         ylabel('d(Range)/d(time), m/s', 'FontSize',15), grid
         title("Derivative of Range vs. Time", "FontSize", 15)
     subplot(2,1,2);
-    plot(time, dheight, "r-", "LineWidth", 2);    
+    plot(tspan, dheight, "r-", "LineWidth", 2);    
         xlabel('Time, sec', 'FontSize',15), ...
         ylabel('d(Height)/d(time), m', 'FontSize',15), grid
         title("Derivative of Height vs. Time", "FontSize", 15)

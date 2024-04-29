@@ -25,19 +25,9 @@
   ## Fig. 2: Monte Carlo Simulation
   <2D trajectories simulated using random sampling of parameters, overlay polynomial fit onto plot.>
 
-  Briefly describe what is being shown in the figure.
+  100 test cases, each with random initial velocities and flight path angles, were simulated and their trajectories are plotted.
 
  ## Fig. 3: Time Derivatives
  <Time-derivative of height and range for the fitted trajectory>
 
   Briefly describe what is being shown in the figure.
-
-  (Below are for teams of 2-3 people)
-
-  # Animation
-  ## Point-Mass Animation
-  <Animated GIF showing 2D trajectory for nominal and the scenario (V=7.5 m/s, Gam=+0.4 rad)>
-  
-  (Below are for teams of 3 people)
-  ## Graphical Animation
-  <Same as the above animation, except that the moving *point* should be a 2D drawing of an airplane, drawn using CAD>
