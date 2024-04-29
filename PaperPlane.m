@@ -58,6 +58,8 @@
     Gam_max = 0.4;
     tspan = linspace(to, tf, 100);
     drl = 100;
+
+    % For part 4 (following 2 rows)
     range = nan*zeros(100);
     height = nan*zeros(100);
     
@@ -70,7 +72,7 @@
 	    [t,x]	=	ode23('EqMotion',tspan,xo);
         plot(x(:,4),x(:,3), "k-")
 
-        % For Part 4
+        % For Part 4 (following 2 rows)
         range(:,i) = x(:,4);
         height(:,i) = x(:,3);
 
@@ -82,6 +84,7 @@
 
 %   4) Average Trajectory
     time = tspan;
+    ord = 10;
     avg_range = nan*(1:100);
     avg_height = nan*(1:100);
 
@@ -90,40 +93,55 @@
         avg_height(i) = mean(height(i,:));
     end
 
-    plot(avg_range,avg_height, "r-", "LineWidth", 5);
+    figure
+    hold on
+    plot(time, avg_range, "k.")
+    p_r = polyfit(time, avg_range, ord);
+    range_fit = polyval(p_r, time);
+    plot(time, range_fit, "b-");
 
-    xo		=	[V;Gam;H;R];
-    [t,x]	=	ode23('EqMotion',tspan,xo);
+    plot(time, avg_height, "k.")
+    p_h = polyfit(time, avg_height, ord);
+    height_fit = polyval(p_h, time);
+    plot(time, height_fit, "b-");
 
-    plot(x(:,4),x(:,3), "b-", "LineWidth", 5);
+
+%   5) Derivatives
+    drange = num_der_central(time, range_fit);
+    dheight = num_der_central(time, height_fit);
+
+    figure
+    subplot(1,2,1);
+    plot(time, drange, "LineWidth", 2);
+        xlabel('Time, sec', 'FontSize',15), ...
+        ylabel('d(Range)/d(time), m/s', 'FontSize',15), grid
+        title("Derivative of Range vs. Time", "FontSize", 15)
+    subplot(1,2,2);
+    plot(time, dheight, "r-", "LineWidth", 2);    
+        xlabel('Time, sec', 'FontSize',15), ...
+        ylabel('d(Height)/d(time), m', 'FontSize',15), grid
+        title("Derivative of Height vs. Time", "FontSize", 15)
 
 
-% %	b) Oscillating Glide due to Zero Initial Flight Path Angle
-% 	xo		=	[V;0;H;R];
-% 	[tb,xb]	=	ode23('EqMotion',tspan,xo);
+%     Extra Stuff
+
+%     plot(avg_range,avg_height, "r-", "LineWidth", 5);
+
+%     xo		=	[V;Gam;H;R];
+%     [t,x]	=	ode23('EqMotion',tspan,xo);
 % 
-% %	c) Effect of Increased Initial Velocity
-% 	xo		=	[1.5*V;0;H;R];
-% 	[tc,xc]	=	ode23('EqMotion',tspan,xo);
+%     plot(x(:,4),x(:,3), "b-", "LineWidth", 5);
 % 
-% %	d) Effect of Further Increase in Initial Velocity
-% 	xo		=	[3*V;0;H;R];
-% 	[td,xd]	=	ode23('EqMotion',tspan,xo);
+%     figure
+%     subplot(1,2,1)
+%     plot(time, avg_range);
+% 
+%     subplot(1,2,2)
+%     plot(time, avg_height);
+
+
 	
 
-% 	figure
-% 	subplot(2,2,1)
-% 	plot(ta,xa(:,1),tb,xb(:,1),tc,xc(:,1),td,xd(:,1))
-% 	xlabel('Time, s'), ylabel('Velocity, m/s'), grid 
-% 	subplot(2,2,2)
-% 	plot(ta,xa(:,2),tb,xb(:,2),tc,xc(:,2),td,xd(:,2))
-% 	xlabel('Time, s'), ylabel('Flight Path Angle, rad'), grid
-% 	subplot(2,2,3)
-% 	plot(ta,xa(:,3),tb,xb(:,3),tc,xc(:,3),td,xd(:,3))
-% 	xlabel('Time, s'), ylabel('Altitude, m'), grid
-% 	subplot(2,2,4)
-% 	plot(ta,xa(:,4),tb,xb(:,4),tc,xc(:,4),td,xd(:,4))
-% 	xlabel('Time, s'), ylabel('Range, m'), grid
 
 % Notes:
 % 3) randomly pick velocity and flight path angle in their range
