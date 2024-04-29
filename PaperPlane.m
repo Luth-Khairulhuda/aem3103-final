@@ -23,7 +23,7 @@
 
 %   2a) Varying Inital Velocity
     figure
-    subplot(1,2,1)
+    subplot(2,1,1)
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
     hold on
@@ -38,7 +38,7 @@
     end
 
 %   2b) Varying Initial Flight Path Angle
-    subplot(1,2,2)
+    subplot(2,1,2)
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
     hold on
@@ -111,12 +111,12 @@
     dheight = num_der_central(time, height_fit);
 
     figure
-    subplot(1,2,1);
+    subplot(2,1,1);
     plot(time, drange, "LineWidth", 2);
         xlabel('Time, sec', 'FontSize',15), ...
         ylabel('d(Range)/d(time), m/s', 'FontSize',15), grid
         title("Derivative of Range vs. Time", "FontSize", 15)
-    subplot(1,2,2);
+    subplot(2,1,2);
     plot(time, dheight, "r-", "LineWidth", 2);    
         xlabel('Time, sec', 'FontSize',15), ...
         ylabel('d(Height)/d(time), m', 'FontSize',15), grid
