@@ -1,16 +1,7 @@
-%	Example 1.3-1 Paper Airplane Flight Path
-%	Copyright 2005 by Robert Stengel
-%	August 23, 2005
-
-	
-% %	a) Equilibrium Glide at Maximum Lift/Drag Ratio
-%   [V, Gam, H, R] = setup_sim();
-% 	to		=	0;			% Initial Time, sec
-% 	tf		=	6;			% Final Time, sec
-% 	tspan	=	[to tf];
-% 	xo		=	[V;Gam;H;R];
-% 	[ta,xa]	=	ode23('EqMotion',tspan,xo);
-
+%	Paper Plane Velocity and Flight Path Angle at
+%	Max Lift to Drag Ratio Simulations
+%   By Luth Khairulhuda
+%	April 30, 2024
 
 
 %   Initial Conditions for 
@@ -24,7 +15,7 @@
 %   2a) Varying Inital Velocity
     figure
     subplot(2,1,1)
-    title("Varying Initial Velocity", 'FontSize',15);
+    title("Varying Paper Plane Initial Velocity", 'FontSize',17);
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
     hold on
@@ -37,10 +28,11 @@
         plot(x(:,4),x(:,3), lines(i), "LineWidth",2);
         hold on
     end
+    legend("Low, 2 m/s", "Nominal, 3.55 m/s", "High, 7.5 m/s")
 
 %   2b) Varying Initial Flight Path Angle
     subplot(2,1,2)
-    title("Varying Initial Flight Path Angle", 'FontSize',15);
+    title("Varying Paper Plane Initial Flight Path Angle", 'FontSize',17);
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
     hold on
@@ -52,7 +44,15 @@
         plot(x(:,4),x(:,3), lines(i), "LineWidth",2);
         hold on
     end
+    legend("Low, -0.5 rad", "Nominal, -0.18 rad", "High, 0.4 rad")
 	
+    set(gcf,'PaperUnits','inches');
+    set(gcf,'PaperSize', [8 10]);
+    set(gcf,'PaperPosition',[0.5 0.5 7 9]);
+    set(gcf,'PaperPositionMode','Manual');
+    set(gcf,'color','w');
+   
+
 %   3) 100 Tests
     V_min = 2;
     V_max = 7.5;
@@ -71,7 +71,7 @@
         rand_Gam = Gam_min + (Gam_max-Gam_min)*rand(1);
         xo		=	[rand_V;rand_Gam;H;R];
 	    [t,x]	=	ode23('EqMotion',tspan,xo);
-        plot(x(:,4),x(:,3), "k-")
+        plot(x(:,4),x(:,3), "k-", 'HandleVisibility','off')
 
         % For Part 4 (following rows)
         R_temp = x(:,4);
@@ -83,9 +83,15 @@
 
     end
     title(["10th Order Polyfit of 100 Randomized", "Initial Values Trajectories"]...
-        , "FontSize", 15)
+        , "FontSize", 18)
     xlabel('Range, m', 'FontSize',15), ...
         ylabel('Height, m', 'FontSize',15), grid
+        set(gcf,'PaperUnits','inches');
+    
+    set(gcf,'PaperSize', [8 8]);
+    set(gcf,'PaperPosition',[0.5 0.5 7 7]);
+    set(gcf,'PaperPositionMode','Manual');
+    set(gcf,'color','w');
 
 
 %   4) Average Trajectory
@@ -100,8 +106,9 @@
     height_fit = polyval(p_h, tspan);
 
 
-    plot(range_fit, height_fit, "c-", "LineWidth", 5)
+    plot(range_fit, height_fit, "c-", "LineWidth", 5,'DisplayName','Average Trajectory')
     axis([0 25 -3 4]);
+    legend
 
 %   5) Derivatives
     drange = num_der_central(tspan, range_fit);
@@ -110,37 +117,17 @@
     figure
     subplot(2,1,1);
     plot(tspan, drange, "LineWidth", 2);
-        xlabel('Time, sec', 'FontSize',15), ...
-        ylabel('d(Range)/d(time), m/s', 'FontSize',15), grid
-        title("Derivative of Range vs. Time", "FontSize", 15)
+        xlabel('Time, sec', 'FontSize',12), ...
+        ylabel('Range Time Derivative, m/s', 'FontSize',14), grid
+        title("Average Trajectory Derivative of Range vs. Time", "FontSize", 17)
     subplot(2,1,2);
     plot(tspan, dheight, "r-", "LineWidth", 2);    
-        xlabel('Time, sec', 'FontSize',15), ...
-        ylabel('d(Height)/d(time), m', 'FontSize',15), grid
-        title("Derivative of Height vs. Time", "FontSize", 15)
+        xlabel('Time, sec', 'FontSize',12), ...
+        ylabel('Height Time Derivative, m/s', 'FontSize',14), grid
+        title("Average Trajectory Derivative of Height vs. Time", "FontSize", 17)
 
-
-%     Extra Stuff
-
-%     plot(avg_range,avg_height, "r-", "LineWidth", 5);
-
-%     xo		=	[V;Gam;H;R];
-%     [t,x]	=	ode23('EqMotion',tspan,xo);
-% 
-%     plot(x(:,4),x(:,3), "b-", "LineWidth", 5);
-% 
-%     figure
-%     subplot(1,2,1)
-%     plot(time, avg_range);
-% 
-%     subplot(1,2,2)
-%     plot(time, avg_height);
-
-
-	
-
-
-% Notes:
-% 3) randomly pick velocity and flight path angle in their range
-% and simulate all 100
-% Other) Can remove the parameter figures (4 subpots)
+    set(gcf,'PaperUnits','inches');
+    set(gcf,'PaperSize', [8 10]);
+    set(gcf,'PaperPosition',[0.5 0.5 7 9]);
+    set(gcf,'PaperPositionMode','Manual');
+    set(gcf,'color','w');
