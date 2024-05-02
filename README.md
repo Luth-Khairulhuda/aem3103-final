@@ -7,9 +7,14 @@
   ## Summary of Findings
   <Show the variations studied in a table>
 
-  The 2D equilibrium glide of a paper airplane at max lift-to-drag ratio was studied to determine the flight trajectory and associated properties. To account for variations in initial velocity and flight path angle conditions, two separate simulations were performed. The first varied initial velocity and flight path angle independently of one another, with three values of low, nominal, and high as shown in Figure 1 to see how they would affect the trajectory. Then, to account for the randomness of the launching apparatus, Figure 2 shows a Monte Carlo simulation performed with 100 random initial velocities and flight path angles with ranges between 2 to 7.5 m/s and -0.5 to 0.4 radians respectively. The average trajectory was fit using a 10th-order polynomial, and its range and height time derivatives were calculated as shown in Figure 3. 
+  The 2D equilibrium glide of a paper airplane at max lift-to-drag ratio was studied to determine the flight trajectory and associated properties. To account for variations in initial velocity and flight path angle conditions, two separate simulations were performed. The first varied initial velocity and flight path angle independently of one another, with three values of low, nominal, and high as shown in Figure 1 and in the table below to see how they would affect the trajectory. Then, to account for the randomness of the launching apparatus, Figure 2 shows a Monte Carlo simulation performed with 100 random initial velocities and flight path angles with ranges between 2 to 7.5 m/s and -0.5 to 0.4 radians respectively. The average trajectory was fit using a 10th-order polynomial, and its range and height time derivatives were calculated as shown in Figure 3. 
 
   Increasing initial velocity seemed to increase the glide range of the paper airplane, while high and low variations on the nominal initial flight path angle decreased the glide range. Accounting for the random range of variations in the two parameters, the average trajectory overshoots the expected nominal glide range of the paper airplane. Thus, to show equilibrium glide more accurately, modifications to the launching procedure or hardware must be made to decrease variation, specifically in initial velocity. 
+  
+Parameters Varied         | Minimum     | Nominal | Maximum    
+--------------|-----------|------------|----------
+| Initial Velocity (m/s) | 2      | 3.55        | 7.5
+| Initial Flight Path Angle (rad)      | -0.5  | -0.18     | 0.4
 
  
   # Code Listing
